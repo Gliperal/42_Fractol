@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex.h                                          :+:      :+:    :+:   */
+/*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 19:45:21 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/10 21:24:43 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/10 20:16:05 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/10 20:20:39 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPLEX_H
-# define COMPLEX_H
+#include <stdlib.h>
+#include <time.h>
 
-# include "libft/libft.h"
-
-typedef struct	s_complex
+// TODO Make the colors gradient more, make them not too similar, etc.
+int	*colors_generator(int how_many)
 {
-	float		r;
-	float		i;
-}				t_complex;
+	int *colors;
+	int i;
 
-typedef struct	s_transform
-{
-	t_complex	loc;
-	t_complex	scale;
-}				t_transform;
-
-t_complex	pixel_to_complex(int x, int y, t_transform *t);
-void	transform_zoom(t_transform *t, t_point invariant, float scale);
-
-#endif
+	colors = (int *)malloc((how_many + 1) * sizeof(int));
+	if (colors == NULL)
+		return (NULL);
+	srand(time(0));
+	i = 0;
+	while (i < how_many)
+	{
+		colors[i] = rand() & 0xFFFFFF;
+		i++;
+	}
+	colors[how_many] = 0x000000;
+	return (colors);
+}
