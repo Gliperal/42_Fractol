@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex.h                                          :+:      :+:    :+:   */
+/*   ft_strcmpi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 19:45:21 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 14:27:56 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/13 15:02:24 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/13 15:07:47 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPLEX_H
-# define COMPLEX_H
+#include <string.h>
+#include "libft.h"
 
-# include "libft/libft.h"
-
-typedef struct	s_complex
+int	ft_strcmpi(const char *s1, const char *s2)
 {
-	float		r;
-	float		i;
-}				t_complex;
+	int	c1;
+	int	c2;
 
-typedef struct	s_transform
-{
-	t_complex	loc;
-	t_complex	scale;
-}				t_transform;
-
-t_complex		pixel_to_complex(int x, int y, t_transform *t);
-t_transform		*transform_new();
-void			transform_zoom(t_transform *t, t_point invariant, float scale);
-
-#endif
+	while (*s1 && *s2)
+	{
+		c1 = ft_tolower(*s1);
+		c2 = ft_tolower(*s2);
+		if (c1 != c2)
+			return (c1 - c2);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}

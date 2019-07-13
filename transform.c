@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:16:27 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/10 21:11:23 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 14:32:31 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_complex	pixel_to_complex(int x, int y, t_transform *t)
 	return (z);
 }
 
-void	transform_zoom(t_transform *t, t_point invariant, float scale)
+void		transform_zoom(t_transform *t, t_point invariant, float scale)
 {
 	t_complex old_scale;
 
@@ -33,7 +33,7 @@ void	transform_zoom(t_transform *t, t_point invariant, float scale)
 	t->loc.i += invariant.y * (old_scale.i - t->scale.i);
 }
 
-t_transform	*transform_new()
+t_transform	*transform_new(void)
 {
 	t_transform *new;
 

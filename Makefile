@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 FRAMEWORKS=-framework OpenGL -framework AppKit
 RM=rm -rf
-OBJS=main.o input.o input_handlers.o input_handle_loop.o transform.o colors.o
+OBJS=main.o input.o input_handlers.o input_handle_loop.o input_util.o transform.o colors.o julia.o mandelbrot.o fractals.o
 NAME=fractol
 LIBFT=libft
 LIBMLX=minilibx_macos
@@ -43,3 +43,4 @@ input.o: input.h input_handlers.h -lmlx
 input_handle_loop.o: input.h
 main.o: input.h complex.h -lmlx
 transform.o: complex.h -lft
+julia.o: complex.h -lrendering

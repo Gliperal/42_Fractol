@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex.h                                          :+:      :+:    :+:   */
+/*   param.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 19:45:21 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 14:27:56 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/13 14:08:34 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/13 15:54:46 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPLEX_H
-# define COMPLEX_H
+#ifndef PARAM_H
+# define PARAM_H
 
-# include "libft/libft.h"
+# include "complex.h"
+# include "input.h"
 
-typedef struct	s_complex
+typedef struct		s_param
 {
-	float		r;
-	float		i;
-}				t_complex;
+	t_input			*input;
+	t_screen		*screen;
+	t_transform		*camera;
+	t_complex		julia_c;
+	int				*colors;
+	int				fractal_type;
+}					t_param;
 
-typedef struct	s_transform
-{
-	t_complex	loc;
-	t_complex	scale;
-}				t_transform;
-
-t_complex		pixel_to_complex(int x, int y, t_transform *t);
-t_transform		*transform_new();
-void			transform_zoom(t_transform *t, t_point invariant, float scale);
 
 #endif

@@ -6,101 +6,42 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/10 21:25:08 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:52:55 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "minilibx_macos/mlx.h"
 #include "complex.h"
-
-t_screen	*new_screen(int width, int height, char *title);
-t_transform	*transform_new();
-
-typedef struct	s_param
-{
-	t_input		*input;
-	t_screen	*screen;
-	t_transform	*camera;
-	t_complex	julia_c;
-	int			*colors;
-}				t_param;
-
-int		key_down(t_input *input, int key)
-{
-	return (input->key_states[key] == HELD ||
-			input->key_states[key] == PRESSED);
-}
-
-int		key_pressed(t_input *input, int key)
-{
-	return (input->key_states[key] == PRESSED);
-}
-
-int		button_down(t_input *input, int button)
-{
-	return (input->button_states[button] == HELD ||
-			input->button_states[button] == PRESSED);
-}
-
-int		button_pressed(t_input *input, int button)
-{
-	return (input->button_states[button] == PRESSED);
-}
-
-static int	iterations_for_pixel(int x, int y, t_transform *t, t_complex c)
-{
-	t_complex z;
-
-	z = pixel_to_complex(x, y, t);
-	int i = 0;
-	while (i < 100 && z.r * z.r + z.i * z.i < 4)
-	{
-		// z = z^2 + c
-		float tmp = z.r * z.r - z.i * z.i;
-		z.i = 2 * z.r * z.i + c.i;
-		z.r = tmp + c.r;
-		i++;
-	}
-	return (i);
-}
-
-// TODO REMOVE
-#include <stdio.h>
-
+#include "param.h"
 #include "rendering/rendering.h"
+#include "libft/libft.h"
+#include "fractals.h"
+
 int	*colors_generator(int how_many);
-static void	julia(t_param *param)
+
+static void	render(t_param *param)
 {
-//	printf("Zoom depth: %e\n", param->camera->scale.r);
-	for (int x = 0; x < param->screen->width; x++)
-		for (int y = 0; y < param->screen->height; y++)
-		{
-			int iterations = iterations_for_pixel(x, y, param->camera, param->julia_c);
-			screen_put(param->screen, x, y, param->colors[iterations]);
-		}
-	mlx_put_image_to_window(param->screen->mlx_ptr, param->screen->win_ptr, param->screen->img_ptr, 0, 0);
+	void	(*fractal_func)(t_param *param);
+
+	fractal_func = g_fractals[param->fractal_type].render;
+	(*fractal_func)(param);
 }
 
-// TODO only re-render once on multiple updated things
-static void	on_update(void *p)
+static void	on_update_input(t_param *param, t_input *input)
 {
-	t_param *param = p;
-	t_input *input = param->input;
-	if (param->input->key_states[ESC] == PRESSED)
-		exit(0);
-	if (
-			key_down(input, SPACE) &&
-			!param->input->mouse_yet_to_move &&
-			(param->input->mouse_moved.x ||
-			param->input->mouse_moved.y)
-	   )
+	float zoom;
+
+	if (key_down(input, SPACE) && !input->mouse_yet_to_move && \
+			(input->mouse_moved.x || input->mouse_moved.y))
 	{
-		param->julia_c.r = ((float) param->input->mouse.x / param->screen->width) * 3.5 - 2.5;
-		param->julia_c.i = ((float) param->input->mouse.y / param->screen->height) * 2 - 1;
-		julia(param);
+		param->julia_c.r = ((float)input->mouse.x / param->screen->width) \
+																* 3.5 - 2.5;
+		param->julia_c.i = ((float)input->mouse.y / param->screen->height) \
+																	* 2 - 1;
+		param->input->exposed = 1;
 	}
-	float zoom = 0;
+	zoom = 0;
 	if (button_pressed(input, MWHEELDN) || key_down(input, ARROW_DOWN))
 		zoom = 0.90;
 	if (button_pressed(input, MWHEELUP) || key_down(input, ARROW_UP))
@@ -111,29 +52,97 @@ static void	on_update(void *p)
 			transform_zoom(param->camera, param->input->mouse, zoom);
 		else
 			transform_zoom(param->camera, screen_center(param->screen), zoom);
-		julia(param);
-	}
-	if (param->input->exposed)
-	{
-		param->input->exposed = 0;
-		julia(param);
+		param->input->exposed = 1;
 	}
 }
 
-int	main(int argc, char **argv)
+static void	on_update(void *p)
 {
-	t_param *param = malloc(sizeof(t_param));
-	param->screen = new_screen(640, 480, "Fract'ol");
+	t_param	*param;
+
+	param = p;
+	if (param->input->key_states[ESC] == PRESSED)
+		exit(0);
+	on_update_input(param, param->input);
+	if (param->input->exposed)
+	{
+		param->input->exposed = 0;
+		render(param);
+	}
+}
+
+void	fractol(MLX *mlx_ptr, int fractal_type)
+{
+	t_param	*param;
+
+	param = malloc(sizeof(t_param));
+	param->screen = new_screen(mlx_ptr, 1280, 720, "Fract'ol");
 	param->camera = malloc(sizeof(t_transform));
 	param->camera = transform_new();
 	param->julia_c.r = 0.07;
 	param->julia_c.i = 0.74;
 	param->colors = colors_generator(100);
 	if (param->colors == NULL)
-		return (1);
+	{
+		ft_putstr("Failed to allocate colors. Exiting...\n");
+		return ;
+	}
 	param->input = input_new(&on_update, param, param->screen);
+	param->fractal_type = fractal_type;
 	input_clock_init(param->input);
-	mlx_loop(param->screen->mlx_ptr);
-	argc = 0;
-	argv = 0;
+}
+
+void	usage_and_exit(void)
+{
+	ft_putstr("usage: ./fractol [julia | mandelbrot | ...]\n");
+	exit(1);
+}
+
+int		get_fractal_by_name(const char *name)
+{
+	int i;
+
+	i = 0;
+	while (g_fractals[i].name != NULL)
+	{
+		if (ft_strequi(g_fractals[i].name, name))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int	main(int argc, char **argv)
+{
+	int	*types;
+	int	i;
+	MLX	*mlx_ptr;
+
+	mlx_ptr = mlx_init();
+	if (mlx_ptr == NULL)
+		exit(1);
+	types = (int *)malloc((argc - 1) * sizeof(int));
+	if (types == NULL)
+		exit(1);
+	if (argc < 2)
+		usage_and_exit();
+	i = 0;
+	while (i < argc - 1)
+	{
+		types[i] = get_fractal_by_name(argv[i + 1]);
+		if (types[i] == -1)
+		{
+			ft_printf("error: \"%s\" is not a known fractal type.\n", argv[i + 1]);
+			free(types);
+			usage_and_exit();
+		}
+		i++;
+	}
+	i = 0;
+	while (i < argc - 1)
+	{
+		fractol(mlx_ptr, types[i]);
+		i++;
+	}
+	mlx_loop(mlx_ptr);
 }

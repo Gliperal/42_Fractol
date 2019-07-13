@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:45:30 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/02 16:14:15 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:07:30 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void				ft_putstr_upper(char const *s);
 void				ft_putstr_lower(char const *s);
 int					ft_strchri(const void *s, int c);
 int					ft_iswhite(char c);
+int					ft_strcmpi(const char *s1, const char *s2);
+int					ft_strequi(char const *s1, char const *s2);
 
 typedef struct		s_arrlst
 {

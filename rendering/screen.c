@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 11:51:17 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/10 20:53:33 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:47:13 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,18 @@ t_point		screen_center(t_screen *screen)
 	return (center);
 }
 
-/*
-** No mlx_destroy_ptr. Memory leaks abound :(
-*/
-
-t_screen	*new_screen(int width, int height, char *title)
+t_screen	*new_screen(MLX *mlx_ptr, int width, int height, char *title)
 {
 	t_screen	*screen;
 
 	screen = (t_screen *)malloc(sizeof(t_screen));
 	if (screen == NULL)
 		return (NULL);
-	screen->mlx_ptr = mlx_init();
-	if (screen->mlx_ptr == NULL)
-	{
-		free(screen);
-		return (NULL);
-	}
-	screen->win_ptr = mlx_new_window(screen->mlx_ptr, width, height, title);
+	screen->mlx_ptr = mlx_ptr;
+	screen->win_ptr = mlx_new_window(mlx_ptr, width, height, title);
 	if (screen->win_ptr == NULL)
 		return (NULL);
-	screen->img_ptr = mlx_new_image(screen->mlx_ptr, width, height);
+	screen->img_ptr = mlx_new_image(mlx_ptr, width, height);
 	if (screen->img_ptr == NULL)
 		return (NULL);
 	screen->data = (void *)mlx_get_data_addr(screen->img_ptr, &screen->bpp, \

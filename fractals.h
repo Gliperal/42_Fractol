@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex.h                                          :+:      :+:    :+:   */
+/*   fractals.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 19:45:21 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 14:27:56 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/13 15:48:01 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/13 15:54:08 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPLEX_H
-# define COMPLEX_H
+#ifndef FRACTALS_H
+# define FRACTALS_H
 
-# include "libft/libft.h"
+#include "param.h"
 
-typedef struct	s_complex
+void				julia(t_param *param);
+void				mandelbrot(t_param *param);
+
+typedef struct		s_foo
 {
-	float		r;
-	float		i;
-}				t_complex;
+	const char		*name;
+	void			(*render)(t_param *param);
+}					t_foo;
 
-typedef struct	s_transform
-{
-	t_complex	loc;
-	t_complex	scale;
-}				t_transform;
-
-t_complex		pixel_to_complex(int x, int y, t_transform *t);
-t_transform		*transform_new();
-void			transform_zoom(t_transform *t, t_point invariant, float scale);
+extern const t_foo g_fractals[];
 
 #endif
