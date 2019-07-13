@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 15:52:55 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 16:10:30 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 #include "rendering/rendering.h"
 #include "libft/libft.h"
 #include "fractals.h"
-
-int	*colors_generator(int how_many);
-
-static void	render(t_param *param)
-{
-	void	(*fractal_func)(t_param *param);
-
-	fractal_func = g_fractals[param->fractal_type].render;
-	(*fractal_func)(param);
-}
 
 static void	on_update_input(t_param *param, t_input *input)
 {
@@ -66,12 +56,12 @@ static void	on_update(void *p)
 	on_update_input(param, param->input);
 	if (param->input->exposed)
 	{
+		(*(param->fractal_render))(param);
 		param->input->exposed = 0;
-		render(param);
 	}
 }
 
-void	fractol(MLX *mlx_ptr, int fractal_type)
+void		fractol(MLX *mlx_ptr, void (*fractal_render)(t_param *param))
 {
 	t_param	*param;
 
@@ -88,39 +78,15 @@ void	fractol(MLX *mlx_ptr, int fractal_type)
 		return ;
 	}
 	param->input = input_new(&on_update, param, param->screen);
-	param->fractal_type = fractal_type;
+	param->fractal_render = fractal_render;
 	input_clock_init(param->input);
 }
 
-void	usage_and_exit(void)
+int			*read_args(int argc, char **argv)
 {
-	ft_putstr("usage: ./fractol [julia | mandelbrot | ...]\n");
-	exit(1);
-}
-
-int		get_fractal_by_name(const char *name)
-{
+	int *types;
 	int i;
 
-	i = 0;
-	while (g_fractals[i].name != NULL)
-	{
-		if (ft_strequi(g_fractals[i].name, name))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int	main(int argc, char **argv)
-{
-	int	*types;
-	int	i;
-	MLX	*mlx_ptr;
-
-	mlx_ptr = mlx_init();
-	if (mlx_ptr == NULL)
-		exit(1);
 	types = (int *)malloc((argc - 1) * sizeof(int));
 	if (types == NULL)
 		exit(1);
@@ -132,17 +98,32 @@ int	main(int argc, char **argv)
 		types[i] = get_fractal_by_name(argv[i + 1]);
 		if (types[i] == -1)
 		{
-			ft_printf("error: \"%s\" is not a known fractal type.\n", argv[i + 1]);
+			ft_printf("error: \"%s\" is not a known fractal type.\n", \
+					argv[i + 1]);
 			free(types);
 			usage_and_exit();
 		}
 		i++;
 	}
+	return (types);
+}
+
+int			main(int argc, char **argv)
+{
+	int	*types;
+	int	i;
+	MLX	*mlx_ptr;
+
+	mlx_ptr = mlx_init();
+	if (mlx_ptr == NULL)
+		exit(1);
+	types = read_args(argc, argv);
 	i = 0;
 	while (i < argc - 1)
 	{
-		fractol(mlx_ptr, types[i]);
+		fractol(mlx_ptr, g_fractals[types[i]].render);
 		i++;
 	}
+	free(types);
 	mlx_loop(mlx_ptr);
 }

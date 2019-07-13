@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 11:51:17 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 15:47:13 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 16:14:06 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int			is_in_screen(t_point p, t_screen *screen)
 	return (
 			p.x >= 0 && p.y >= 0 &&
 			p.x <= screen->width &&
-			p.y <= screen->height
-	);
+			p.y <= screen->height);
 }
 
 t_point		screen_center(t_screen *screen)

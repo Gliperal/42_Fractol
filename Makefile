@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 FRAMEWORKS=-framework OpenGL -framework AppKit
 RM=rm -rf
-OBJS=main.o input.o input_handlers.o input_handle_loop.o input_util.o transform.o colors.o julia.o mandelbrot.o fractals.o
+OBJS=main.o input.o input_handlers.o input_handle_loop.o input_util.o transform.o colors.o julia.o mandelbrot.o fractals.o misc.o
 NAME=fractol
 LIBFT=libft
 LIBMLX=minilibx_macos
@@ -29,6 +29,13 @@ fclean: clean
 	make -C $(LIBRENDERING) fclean
 
 re: fclean all
+
+norme:
+	norminette libft/*.[ch]
+	norminette rendering/*.[ch]
+	norminette *.[ch]
+
+.PHONY: all clean fclean re norme
 
 $(LIBMLX)/libmlx.a:
 	make -C $(LIBMLX)

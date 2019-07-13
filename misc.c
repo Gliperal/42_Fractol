@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractals.h                                         :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/13 15:48:01 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 15:57:56 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/13 16:08:39 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/13 16:09:26 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTALS_H
-# define FRACTALS_H
+#include "fractals.h"
+#include "libft/libft.h"
 
-# include "param.h"
-
-void				julia(t_param *param);
-void				mandelbrot(t_param *param);
-
-typedef struct		s_foo
+void	usage_and_exit(void)
 {
-	const char		*name;
-	void			(*render)(t_param *param);
-}					t_foo;
+	ft_putstr("usage: ./fractol [julia | mandelbrot | ...]\n");
+	exit(1);
+}
 
-extern const t_foo g_fractals[];
+int		get_fractal_by_name(const char *name)
+{
+	int i;
 
-#endif
+	i = 0;
+	while (g_fractals[i].name != NULL)
+	{
+		if (ft_strequi(g_fractals[i].name, name))
+			return (i);
+		i++;
+	}
+	return (-1);
+}

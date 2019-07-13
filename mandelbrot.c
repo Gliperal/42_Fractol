@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 14:33:32 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 14:36:09 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:58:09 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	pixel_iterations(int x, int y, t_transform *t)
 	float		tmp;
 
 	c = pixel_to_complex(x, y, t);
-	z.r = 0; z.i = 0;
+	z.r = 0;
+	z.i = 0;
 	iterations = 0;
 	while (iterations < 100 && z.r * z.r + z.i * z.i < 4)
 	{
