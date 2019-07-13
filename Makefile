@@ -48,6 +48,6 @@ $(LIBRENDERING)/librendering.a:
 
 input.o: input.h input_handlers.h -lmlx
 input_handle_loop.o: input.h
-main.o: input.h complex.h -lmlx
+main.o: input.h complex.h param.h -lmlx
 transform.o: complex.h -lft
 julia.o: complex.h -lrendering

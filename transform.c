@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:16:27 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 14:32:31 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 16:30:23 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ t_transform	*transform_new(void)
 	new = (t_transform *)malloc(sizeof(t_transform));
 	new->loc.r = -2.5;
 	new->loc.i = -1.0;
-	new->scale.r = 0.005468;
-	new->scale.i = 0.004166;
+	new->scale.r = 0.005;
+	new->scale.i = 0.005;
 	return (new);
+}
+
+void		transform_move(t_transform *t, t_point distance)
+{
+	t->loc.r -= t->scale.r * distance.x;
+	t->loc.i -= t->scale.i * distance.y;
 }

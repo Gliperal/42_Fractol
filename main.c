@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 16:10:30 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 16:33:44 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,39 @@ static void	on_update_input(t_param *param, t_input *input)
 {
 	float zoom;
 
-	if (key_down(input, SPACE) && !input->mouse_yet_to_move && \
-			(input->mouse_moved.x || input->mouse_moved.y))
+	if ((input->mouse_moved.x || input->mouse_moved.y) &&
+			!input->mouse_yet_to_move)
 	{
-		param->julia_c.r = ((float)input->mouse.x / param->screen->width) \
-																* 3.5 - 2.5;
-		param->julia_c.i = ((float)input->mouse.y / param->screen->height) \
-																	* 2 - 1;
+		if (key_down(input, SPACE))
+		{
+			param->julia_c.r = ((float)input->mouse.x / param->screen->width) * 3.5 - 2.5;
+			param->julia_c.i = ((float)input->mouse.y / param->screen->height) * 2 - 1;
+			param->input->exposed = 1;
+		}
+		if (button_down(input, LCLICK))
+		{
+			transform_move(param->camera, input->mouse_moved);
+			param->input->exposed = 1;
+		}
+	}
+	if (key_down(input, KEY_W))
+	{
+		transform_move(param->camera, g_up);
+		param->input->exposed = 1;
+	}
+	if (key_down(input, KEY_A))
+	{
+		transform_move(param->camera, g_left);
+		param->input->exposed = 1;
+	}
+	if (key_down(input, KEY_S))
+	{
+		transform_move(param->camera, g_down);
+		param->input->exposed = 1;
+	}
+	if (key_down(input, KEY_D))
+	{
+		transform_move(param->camera, g_right);
 		param->input->exposed = 1;
 	}
 	zoom = 0;
