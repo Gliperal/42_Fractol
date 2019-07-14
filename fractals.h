@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 15:48:01 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 15:57:56 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 20:23:03 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 void				julia(t_param *param);
 void				mandelbrot(t_param *param);
+void				julia3(t_param *param);
 
 typedef struct		s_foo
 {

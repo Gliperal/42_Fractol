@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 15:52:29 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 15:53:54 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 20:22:39 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@ const t_foo g_fractals[] =
 {
 	{"julia", &julia},
 	{"mandelbrot", &mandelbrot},
+	{"julia3", &julia3},
 	{0, 0}
 };
