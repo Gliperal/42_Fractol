@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 15:48:01 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 20:23:03 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 21:47:09 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 
 # include "param.h"
 
-void				julia(t_param *param);
-void				mandelbrot(t_param *param);
-void				julia3(t_param *param);
-
-typedef struct		s_foo
+typedef struct		s_fractal
 {
 	const char		*name;
 	void			(*render)(t_param *param);
-}					t_foo;
+	void			(*loop_transform)(t_transform *t);
+}					t_fractal;
 
-extern const t_foo g_fractals[];
+void				julia(t_param *param);
+void				mandelbrot(t_param *param);
+void				julia3(t_param *param);
+void				juliasqrt(t_param *param);
+void				carpet(t_param *param);
+void				loop_transform(t_transform *t);
+
+extern const t_fractal	g_fractals[];
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:45:21 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 16:23:23 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/14 13:37:34 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct	s_transform
 {
 	t_complex	loc;
 	t_complex	scale;
+	int			depth;
+	t_arrlst	*zoom_offsets;
 }				t_transform;
 
 t_complex		pixel_to_complex(int x, int y, t_transform *t);

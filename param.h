@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 14:08:34 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 20:26:17 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 21:48:01 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct		s_param
 	t_transform		*camera;
 	t_complex		julia_c;
 	int				*colors;
-	void			(*fractal_render)(struct s_param *param);
+	void			*fractal;
 }					t_param;
 
 int					*colors_generator(int how_many);

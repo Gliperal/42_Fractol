@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 20:26:23 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 21:49:57 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void		on_update(void *p)
 {
 	t_param	*param;
 	t_input	*input;
+	t_fractal	*fractal;
 	float	zoom;
 
 	param = p;
@@ -95,12 +96,15 @@ static void		on_update(void *p)
 	}
 	if (param->input->exposed)
 	{
-		(*(param->fractal_render))(param);
+		fractal = param->fractal;
+		(*(fractal->render))(param);
+		if (fractal->loop_transform)
+			(*(fractal->loop_transform))(param->camera);
 		param->input->exposed = 0;
 	}
 }
 
-static void	fractol(MLX *mlx_ptr, void (*fractal_render)(t_param *param))
+static void	fractol(MLX *mlx_ptr, const t_fractal *fractal)
 {
 	t_param	*param;
 
@@ -117,7 +121,7 @@ static void	fractol(MLX *mlx_ptr, void (*fractal_render)(t_param *param))
 		return ;
 	}
 	param->input = input_new(&on_update, param, param->screen);
-	param->fractal_render = fractal_render;
+	param->fractal = (void *)fractal;
 	input_clock_init(param->input);
 }
 
@@ -160,7 +164,7 @@ int			main(int argc, char **argv)
 	i = 0;
 	while (i < argc - 1)
 	{
-		fractol(mlx_ptr, g_fractals[types[i]].render);
+		fractol(mlx_ptr, g_fractals + types[i]);
 		i++;
 	}
 	free(types);

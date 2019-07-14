@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 16:08:39 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 16:09:26 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/13 20:51:18 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,18 @@
 
 void	usage_and_exit(void)
 {
-	ft_putstr("usage: ./fractol [julia | mandelbrot | ...]\n");
+	int i;
+
+	ft_putstr("usage: ./fractol [");
+	i = 0;
+	while (g_fractals[i].name != NULL)
+	{
+		if (i != 0)
+			ft_putstr(" | ");
+		ft_putstr(g_fractals[i].name);
+		i++;
+	}
+	ft_putstr("]\n");
 	exit(1);
 }
 

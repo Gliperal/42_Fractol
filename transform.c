@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:16:27 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 16:30:23 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/14 13:24:49 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ t_transform	*transform_new(void)
 	new->loc.i = -1.0;
 	new->scale.r = 0.005;
 	new->scale.i = 0.005;
-	return (new);
+	new->depth = 0;
+	new->zoom_offsets = ft_arrlst_new(sizeof(t_complex));
+	if (new->zoom_offsets != NULL)
+		return (new);
+	free(new);
+	return (NULL);
 }
 
 void		transform_move(t_transform *t, t_point distance)
