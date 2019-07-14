@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/14 14:20:31 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/14 14:32:59 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void		on_update(void *p)
 	}
 }
 
-void		fractol(MLX *mlx_ptr, const t_fractal *fractal)
+void			fractol(MLX *mlx_ptr, const t_fractal *fractal)
 {
 	t_param	*param;
 
