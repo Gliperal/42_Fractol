@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/14 14:21:22 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/14 14:30:36 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static int	*read_args(int argc, char **argv)
 
 int			main(int argc, char **argv)
 {
-	int	*types;
-	int	i;
-	MLX	*mlx_ptr;
+	int		*types;
+	int		i;
+	void	*mlx_ptr;
 
 	mlx_ptr = mlx_init();
 	if (mlx_ptr == NULL)
