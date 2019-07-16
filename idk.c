@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia_neg1.c                                       :+:      :+:    :+:   */
+/*   idk.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/15 19:31:57 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/15 20:06:38 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/07/15 19:42:31 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/07/15 20:06:19 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <math.h>
 
 #include "rendering/rendering.h"
 #include "complex.h"
@@ -21,28 +19,22 @@
 static int	pixel_iterations(int x, int y, t_transform *t, t_complex c)
 {
 	t_complex	z;
-	t_complex	new;
 	int			iterations;
-	float		magnitude;
+	float		tmp;
 
 	z = pixel_to_complex(x, y, t);
 	iterations = 0;
-	while (iterations < 100)
+	while (iterations < 100 && z.r * z.r + z.i * z.i < 10)
 	{
-		magnitude = z.r * z.r + z.i * z.i;
-		new.r = z.r / magnitude + c.r;
-		new.i = 0 - z.i / magnitude + c.i;
-		z.r -= new.r;
-		z.i -= new.i;
-		if (z.r * z.r + z.i * z.i < 0.05)
-			break ;
-		z = new;
+		tmp = z.r - 2 * z.r * z.i + z.i;
+		z.i = z.r - z.i + 2 * c.i;
+		z.r = tmp + 2 * c.r + 2;
 		iterations++;
 	}
 	return (iterations);
 }
 
-void		julia_neg1(t_param *param)
+void		idk(t_param *param)
 {
 	int x;
 	int y;
