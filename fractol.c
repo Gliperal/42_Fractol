@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:12:53 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/14 14:32:59 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/15 19:20:39 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void			fractol(MLX *mlx_ptr, const t_fractal *fractal)
 
 	param = malloc(sizeof(t_param));
 	param->screen = new_screen(mlx_ptr, 1280, 720, "Fract'ol");
-	param->camera = malloc(sizeof(t_transform));
 	param->camera = transform_new();
 	param->julia_c.r = 0.07;
 	param->julia_c.i = 0.74;

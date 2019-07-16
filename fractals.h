@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 15:48:01 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/13 21:47:09 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/15 19:37:16 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void				julia3(t_param *param);
 void				juliasqrt(t_param *param);
 void				carpet(t_param *param);
 void				loop_transform(t_transform *t);
+void				julia_neg1(t_param *param);
 
 extern const t_fractal	g_fractals[];
 
