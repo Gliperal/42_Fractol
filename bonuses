@@ -1,0 +1,9 @@
+5 extra fractals
+multiple parameters results in multiple windows
+colors are randomized on program start
+zoom follows mouse position
+arrow keys zoom as well
+moving with WASD
+moving with click and drag
+sierpinski carpet zooms infinitely
+multithreading (mandelbrot only)

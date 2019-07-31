@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 13:19:09 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/31 13:20:26 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:26:00 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include "param.h"
 
-# define NUM_THREADS 4
+# define NUM_THREADS 7
 
 typedef struct	s_thread_args
 {
