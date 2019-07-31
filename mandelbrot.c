@@ -6,16 +6,15 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 14:33:32 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/07/31 13:12:35 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:23:30 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <pthread.h>
 
 #include "rendering/rendering.h"
 #include "complex.h"
 #include "param.h"
 #include "minilibx_macos/mlx.h"
+#include "multithreading.h"
 
 static int	pixel_iterations(int x, int y, t_transform *t)
 {
@@ -38,27 +37,17 @@ static int	pixel_iterations(int x, int y, t_transform *t)
 	return (iterations);
 }
 
-typedef struct	s_thread_args
-{
-	int			thread_index;
-	int			from_y;
-	int			to_y;
-	t_param		*param;
-}				t_thread_args;
-
-#define NUM_THREADS 4
-
 static void	*render_thread(void *p)
 {
 	t_thread_args	*thread_args;
-	t_param *param;
-	int x;
-	int y;
-	int iterations;
+	t_param			*param;
+	int				x;
+	int				y;
+	int				iterations;
 
 	thread_args = p;
 	param = thread_args->param;
-	y = thread_args->thread_index;
+	y = thread_args->index;
 	while (y < param->screen->height)
 	{
 		x = 0;
@@ -76,25 +65,27 @@ static void	*render_thread(void *p)
 
 void		mandelbrot(t_param *param)
 {
-	pthread_t	thread_ids[NUM_THREADS];
+	pthread_t		thread_ids[NUM_THREADS];
 	t_thread_args	*thread_args[NUM_THREADS];
+	int				i;
 
-	for (int i = 0; i < NUM_THREADS; i++)
+	i = 0;
+	while (i < NUM_THREADS)
 	{
 		thread_args[i] = malloc(sizeof(t_thread_args));
 		thread_args[i]->param = param;
-		thread_args[i]->thread_index = i;
-		thread_args[i]->from_y = (param->screen->height / NUM_THREADS) * i;
-		thread_args[i]->to_y = (param->screen->height / NUM_THREADS) * (i + 1) - 10;
+		thread_args[i]->index = i;
+		i++;
 	}
-	for (int i = 0; i < NUM_THREADS; i++)
+	i = 0;
+	while (i < NUM_THREADS)
 	{
-		int status = pthread_create(thread_ids + i, NULL, render_thread, thread_args[i]);
-		if (status)
-			return;
+		pthread_create(thread_ids + i, NULL, render_thread, thread_args[i]);
+		i++;
 	}
-	for (int i = 0; i < NUM_THREADS; i++)
-		pthread_join(thread_ids[i], NULL);
+	i = 0;
+	while (i < NUM_THREADS)
+		pthread_join(thread_ids[i++], NULL);
 	mlx_put_image_to_window(param->screen->mlx_ptr, param->screen->win_ptr, \
 			param->screen->img_ptr, 0, 0);
 }
